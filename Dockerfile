@@ -14,4 +14,5 @@ COPY --from=build /app/target/*.jar app.jar
 ENV DB_URL=jdbc:h2:mem:taskdb;DB_CLOSE_DELAY=-1 \
     SEED_SAMPLE_DATA=true
 EXPOSE 8080
-ENTRYPOINT ["java", "-XX:MaxRAMPercentage=75", "-jar", "app.jar"]
+# 無料枠(512MB)向けにメモリを節約
+ENTRYPOINT ["java", "-XX:MaxRAMPercentage=65", "-Xss512k", "-XX:+UseSerialGC", "-XX:TieredStopAtLevel=1", "-jar", "app.jar"]
