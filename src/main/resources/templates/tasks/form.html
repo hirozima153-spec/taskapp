@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head(${task.id == null ? 'タスク登録' : 'タスク編集'})}"></head>
+<body>
+<h1 th:text="${task.id == null} ? 'タスク登録' : 'タスク編集'">タスク登録</h1>
+
+<form th:object="${task}"
+      th:action="${task.id == null} ? @{/tasks} : @{/tasks/{id}(id=${task.id})}" method="post">
+    <label for="title">タイトル（必須）</label>
+    <input type="text" id="title" th:field="*{title}">
+    <div class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+
+    <label for="memo">メモ</label>
+    <textarea id="memo" rows="4" th:field="*{memo}"></textarea>
+    <div class="error" th:if="${#fields.hasErrors('memo')}" th:errors="*{memo}"></div>
+
+    <label for="dueDate">期限</label>
+    <input type="date" id="dueDate" th:field="*{dueDate}">
+    <div class="error" th:if="${#fields.hasErrors('dueDate')}">日付の形式が正しくありません</div>
+
+    <p>
+        <button type="submit">保存</button>
+        <a th:href="@{/tasks}">キャンセル</a>
+    </p>
+</form>
+</body>
+</html>

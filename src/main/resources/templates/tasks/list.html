@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('タスク一覧')}"></head>
+<body>
+<h1>タスク管理</h1>
+
+<p class="msg" th:if="${message}" th:text="${message}"></p>
+
+<div class="toolbar">
+    <form th:action="@{/tasks}" method="get" class="inline">
+        <input type="text" name="keyword" th:value="${keyword}" placeholder="タイトルで検索" style="width:14rem">
+        <button type="submit">検索</button>
+        <a th:if="${keyword != null and !keyword.isBlank()}" th:href="@{/tasks}">クリア</a>
+    </form>
+    <a class="btn" th:href="@{/tasks/new}">＋ 新規登録</a>
+</div>
+
+<p th:if="${#lists.isEmpty(tasks)}">タスクがありません。</p>
+
+<table th:unless="${#lists.isEmpty(tasks)}">
+    <thead>
+    <tr><th>完了</th><th>タイトル</th><th>期限</th><th>操作</th></tr>
+    </thead>
+    <tbody>
+    <tr th:each="t : ${tasks}" th:classappend="${t.done} ? 'done'">
+        <td>
+            <form class="inline" th:action="@{/tasks/{id}/toggle(id=${t.id})}" method="post">
+                <button type="submit" th:text="${t.done} ? '↩ 戻す' : '✔ 完了'">完了</button>
+            </form>
+        </td>
+        <td>
+            <div class="title" th:text="${t.title}">タイトル</div>
+            <small th:if="${t.memo}" th:text="${t.memo}">メモ</small>
+        </td>
+        <td th:text="${t.dueDate}"
+            th:classappend="${!t.done and t.dueDate != null and t.dueDate.isBefore(T(java.time.LocalDate).now())} ? 'overdue'">-</td>
+        <td>
+            <a th:href="@{/tasks/{id}/edit(id=${t.id})}">編集</a>
+            <form class="inline" th:action="@{/tasks/{id}/delete(id=${t.id})}" method="post"
+                  onsubmit="return confirm('削除してよろしいですか？')">
+                <button type="submit">削除</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

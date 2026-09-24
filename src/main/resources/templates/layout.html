@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="head(title)">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${title}">タスク管理</title>
+    <style>
+        body { font-family: system-ui, sans-serif; max-width: 760px; margin: 2rem auto; padding: 0 1rem; color: #222; }
+        h1 { font-size: 1.5rem; }
+        a { color: #0b5cad; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th, td { border-bottom: 1px solid #ddd; padding: .5rem; text-align: left; vertical-align: top; }
+        .done .title { text-decoration: line-through; color: #888; }
+        .msg { background: #e6f4ea; padding: .5rem 1rem; border-radius: 4px; }
+        .error { color: #c62828; font-size: .9rem; }
+        .overdue { color: #c62828; font-weight: bold; }
+        label { display: block; margin-top: 1rem; font-weight: bold; }
+        input[type=text], input[type=date], textarea { width: 100%; padding: .4rem; box-sizing: border-box; }
+        button, .btn { padding: .4rem .9rem; cursor: pointer; }
+        form.inline { display: inline; }
+        .toolbar { display: flex; gap: .5rem; align-items: center; flex-wrap: wrap; }
+    </style>
+</head>
+</html>
